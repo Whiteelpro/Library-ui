@@ -8,8 +8,11 @@ local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local PlayerMouse = Player:GetMouse()
 
+-- Definición de la biblioteca principal
 local redzlib = {
+	-- Temas disponibles para la UI
 	Themes = {
+		-- Tema Oscuro (Darker)
 		Darker = {
 			["Color Hub 1"] = ColorSequence.new({
 				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(25, 25, 25)),
@@ -22,6 +25,7 @@ local redzlib = {
 			["Color Text"] = Color3.fromRGB(243, 243, 243),
 			["Color Dark Text"] = Color3.fromRGB(180, 180, 180)
 		},
+		-- Tema Oscuro (Dark)
 		Dark = {
 			["Color Hub 1"] = ColorSequence.new({
 				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(40, 40, 40)),
@@ -34,6 +38,7 @@ local redzlib = {
 			["Color Text"] = Color3.fromRGB(245, 245, 245),
 			["Color Dark Text"] = Color3.fromRGB(190, 190, 190)
 		},
+		-- Tema Púrpura (Purple)
 		Purple = {
 			["Color Hub 1"] = ColorSequence.new({
 				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(27.5, 25, 30)),
@@ -1400,11 +1405,34 @@ function redzlib:SetScale(NewScale)
 	UIScale, ScreenGui.Scale.Scale = NewScale, NewScale
 end
 
+-- Función principal para crear una nueva ventana
 function redzlib:MakeWindow(Configs)
-	local WTitle = Configs[1] or Configs.Name or Configs.Title or "redz Library V5"
-	local WMiniText = Configs[2] or Configs.SubTitle or "by : redz9999"
+	-- Validación de tipos para los parámetros
+	if type(Configs) ~= "table" then
+		warn("[redzlib] Advertencia: Configs debe ser una tabla")
+		return nil
+	end
 	
+	-- Configuración de título
+	local WTitle = Configs[1] or Configs.Name or Configs.Title or "redz Library V5"
+	if type(WTitle) ~= "string" then
+		warn("[redzlib] Advertencia: El título debe ser una cadena de texto")
+		WTitle = "redz Library V5"
+	end
+	
+	-- Configuración de subtítulo
+	local WMiniText = Configs[2] or Configs.SubTitle or "by : redz9999"
+	if type(WMiniText) ~= "string" then
+		warn("[redzlib] Advertencia: El subtítulo debe ser una cadena de texto")
+		WMiniText = "by : redz9999"
+	end
+	
+	-- Configuración de carpeta de guardado
 	Settings.ScriptFile = Configs[3] or Configs.SaveFolder or false
+	if Settings.ScriptFile and type(Settings.ScriptFile) ~= "string" then
+		warn("[redzlib] Advertencia: SaveFolder debe ser una cadena de texto")
+		Settings.ScriptFile = false
+	end
 	
 	local function LoadFile()
 		local File = Settings.ScriptFile
